@@ -31,8 +31,8 @@ public class AccountServiceImpl implements AccountService {
        appUser.setPwd(bCryptPasswordEncoder.encode(password));
 
        appUserRepository.save(appUser);
-        addRoleToUser(username,"USER");
-        return appUser;
+       addRoleToUser(username,"USER");
+       return appUser;
     }
 
     @Override
@@ -48,10 +48,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addRoleToUser(String username, String role) {
+    public void addRoleToUser(String username, String roleName) {
           AppUser au = appUserRepository.findByUserName(username);
-          AppRole ar = appRoleRepository.findByRoleName(role);
-
+          AppRole ar = appRoleRepository.findByRoleName(roleName);
           au.getRoles().add(ar);
 
     }

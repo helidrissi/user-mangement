@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface AppRoleRepository extends JpaRepository<AppRole,Long> {
 
       public AppRole findByRoleName(String roleName);
+
+
 }

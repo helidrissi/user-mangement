@@ -34,7 +34,7 @@ public class UserManagementApplication implements CommandLineRunner {
         AppUser u2=accountService.saveUser("tbennana","123456","123456");
 
         AppRole r1=accountService.save(new AppRole(null,"ADMIN"));
-        AppRole r2=accountService.save(new AppRole(null,"USERs"));
+        AppRole r2=accountService.save(new AppRole(null,"USER"));
     }
 
 }
