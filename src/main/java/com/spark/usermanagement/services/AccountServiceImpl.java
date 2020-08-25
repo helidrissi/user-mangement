@@ -22,16 +22,16 @@ public class AccountServiceImpl implements AccountService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public AppUser saveUser(String username, String password, String confirmedpwd) {
-       AppUser appuser=appUserRepository.findAppUserByUserName(username);
+       AppUser appuser=appUserRepository.findByUserName(username);
        if(appuser!=null) throw new RuntimeException("this user is already exist");
        if(!password.equals(confirmedpwd)) throw new RuntimeException("please confirm your password");
        AppUser appUser= new AppUser();
        appUser.setActivf(true);
        appUser.setUserName(username);
        appUser.setPwd(bCryptPasswordEncoder.encode(password));
-       addRoleToUser(username,"USER");
-       appUserRepository.save(appUser);
 
+       appUserRepository.save(appUser);
+        addRoleToUser(username,"USER");
         return appUser;
     }
 
@@ -44,13 +44,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AppUser loadUserByUsername(String username) {
 
-        return appUserRepository.findAppUserByUserName(username);
+        return appUserRepository.findByUserName(username);
     }
 
     @Override
     public void addRoleToUser(String username, String role) {
-          AppUser au = appUserRepository.findAppUserByUserName(username);
-          AppRole ar = appRoleRepository.findAppRoleByRoleName(role);
+          AppUser au = appUserRepository.findByUserName(username);
+          AppRole ar = appRoleRepository.findByRoleName(role);
 
           au.getRoles().add(ar);
 
