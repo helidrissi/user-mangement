@@ -1,6 +1,7 @@
 package com.spark.usermanagement.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class AppUser {
     private Long id;
     @Column(unique = true)
     private String userName;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String pwd;
     private Boolean activf;
     @ManyToMany(fetch = FetchType.EAGER)

@@ -30,11 +30,17 @@ public class UserManagementApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        AppUser u1=accountService.saveUser("hdafali","123456","123456");
-        AppUser u2=accountService.saveUser("tbennana","123456","123456");
+
 
         AppRole r1=accountService.save(new AppRole(null,"ADMIN"));
         AppRole r2=accountService.save(new AppRole(null,"USER"));
+        AppUser u1=accountService.saveUser("hdafali","123456","123456");
+        AppUser u2=accountService.saveUser("tbennana","123456","123456");
+        AppUser u3=accountService.saveUser("admin","123456","123456");
+
+
+
+        accountService.addRoleToUser("admin","ADMIN");
     }
 
 }
