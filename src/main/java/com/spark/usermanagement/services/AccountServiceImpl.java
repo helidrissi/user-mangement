@@ -14,44 +14,44 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
-    @Autowired
-    AppUserRepository appUserRepository;
-    @Autowired
-    AppRoleRepository appRoleRepository;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Override
-    public AppUser saveUser(String username, String password, String confirmedpwd) {
-       AppUser appuser=appUserRepository.findByUserName(username);
-       if(appuser!=null) throw new RuntimeException("this user is already exist");
-       if(!password.equals(confirmedpwd)) throw new RuntimeException("please confirm your password");
-       AppUser appUser= new AppUser();
-       appUser.setActivf(true);
-       appUser.setUserName(username);
-       appUser.setPwd(bCryptPasswordEncoder.encode(password));
+    private AppUserRepository appUserRepository;
+    private AppRoleRepository appRoleRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-       appUserRepository.save(appUser);
-       addRoleToUser(username,"USER");
-       return appUser;
+    public AccountServiceImpl(AppUserRepository appUserRepository, AppRoleRepository appRoleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.appUserRepository = appUserRepository;
+        this.appRoleRepository = appRoleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Override
+    public AppUser saveUser(String username, String password, String confirmedPassword) {
+        AppUser  user=appUserRepository.findByUsername(username);
+        if(user!=null) throw new RuntimeException("User already exists");
+        if(!password.equals(confirmedPassword)) throw new RuntimeException("Please confirm your password");
+        AppUser appUser=new AppUser();
+        appUser.setUsername(username);
+        appUser.setActived(true);
+        appUser.setPassword(bCryptPasswordEncoder.encode(password));
+        appUserRepository.save(appUser);
+        addRoleToUser(username,"USER");
+        return appUser;
     }
 
     @Override
     public AppRole save(AppRole role) {
-
         return appRoleRepository.save(role);
     }
 
     @Override
     public AppUser loadUserByUsername(String username) {
-
-        return appUserRepository.findByUserName(username);
+        return appUserRepository.findByUsername(username);
     }
 
     @Override
-    public void addRoleToUser(String username, String roleName) {
-          AppUser au = appUserRepository.findByUserName(username);
-          AppRole ar = appRoleRepository.findByRoleName(roleName);
-          au.getRoles().add(ar);
-
+    public void addRoleToUser(String username, String rolename) {
+        AppUser appUser=appUserRepository.findByUsername(username);
+        AppRole appRole=appRoleRepository.findByRoleName(rolename);
+        appUser.getRoles().add(appRole);
     }
 }

@@ -20,9 +20,9 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String userName;
-    private String pwd;
-    private Boolean activf;
+    private String username;
+    private String password;
+    private Boolean actived;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> roles=new ArrayList<>();
 }
